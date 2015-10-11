@@ -49,7 +49,7 @@ class Lexer
 	int nextChar;
 	int lexLen;
 	int token;
-	int nextToken:
+	int nextToken;
 	ifstream file;
 	map<string, int> specialWord;
 

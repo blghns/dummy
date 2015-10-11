@@ -32,38 +32,39 @@ void Parser::essay(void){
 	cout << "essay" << endl;
 	do{
 		paragraph();
-	} while (lexer.lex() != "the_end");
+	} while (nextToken != the_end);
 }
 
 // ************************************************************************
-//  <paragraph> -> for_starters {<sentence>.(<comment>)} concluded.
+//  <paragraph> -> for_starters {<sentence> (<comment>)} concluded.
 // ************************************************************************
 void Parser::paragraph(void){
 	cout << "paragraph" << endl;
-	if (lexer.lex() == "for_starters"){
+	if (lexer.lex() == for_starters){
 		do{
 			sentence();
 			comment();
-		} while (lexer.lex() != "concluded.");
+			nextToken = lexer.lex();
+		} while (nextToken != concluded);
 	}
+	nextToken = lexer.lex();
 }
 
 // ************************************************************************
-//  <sentence> -> <noun>(<verb> | <past_tense> | <future_tense>) [<numeric>] { (object | <subject> | <noun>)}
+//  <sentence> -> <noun>(<verb> | <past_tense> | <future_tense>) [<numeric>] { (object | <subject> | <noun>)}.
 // ************************************************************************
 
 void Parser::sentence(void){
 	cout << "sentence" << endl;
 	noun();
-	if (nextToken == "did")
+	if (nextToken == did)
 		past_tense();
-	else if (nextToken == "will")
+	else if (nextToken == will)
 		future_tense();
 	else
 		verb();
-	do{
+	if (nextToken == DIGIT)
 		numeric();
-	} while (lexer.lex() != numeric);
 	do{
 		nextToken = lexer.lex();
 		if (isObject(nextToken))
@@ -75,6 +76,20 @@ void Parser::sentence(void){
 	} while (lexer.lex != ".");
 }
 
+bool isObject(int nextToken){
+	if (nextToken == have || nextToken == is || nextToken == add || nextToken == divide || nextToken == subtract || make || nextToken == bake || nextToken == print || nextToken == fly || nextToken == sleep || nextToken == snooze)
+		return true;
+	else
+		return false;
+}
+
+bool isSubject(int nextToken){
+	if (nextToken == negative || nextToken == plus || nextToken == minus || nextToken == and || nextToken == or || nextToken == multiply || nextToken == divided_by)
+		return true;
+	else
+		return false;
+}
+
 // ************************************************************************
 //  <comment> -> “(“ {a...z | 0...9} “)”
 // ************************************************************************
@@ -82,10 +97,10 @@ void Parser::sentence(void){
 
 void Parser::comment(void){
 	cout << "comment" << endl;
-	if (lexer.lex == "("){
+	if (lexer.lex == LEFTPAREN){
 		do{
 			nextToken = lexer.lex();
-		} while (lexer.lex != ")");
+		} while (lexer.lex != RIGHTPAREN);
 	}
 	nextToken = lexer.lex();
 }
@@ -94,15 +109,19 @@ void Parser::comment(void){
 //  <noun> -> (A...Z) {a...z}
 // ************************************************************************
 void Parser::noun(void){
+	cout << "noun" << endl;
 	if (nextToken == nouns){
-
+		nextToken = lexer.lex();
 	}
+	else
+		cout << "Error reading noun" << endl;
 }
 
 // ************************************************************************
 //  <verb> -> have | is | add | divide | subtract | make | bake | print | fly | sleep | snooze
 // ************************************************************************
 void Parser::verb(void){
+	cout << "verb" << endl;
 	if (nextToken == have || nextToken == is || nextToken == add || nextToken == divide || nextToken == subtract || make || nextToken == bake || nextToken == print || nextToken == fly || nextToken == sleep || nextToken == snooze)
 		nextToken = lexer.lex();
 	else
@@ -113,6 +132,7 @@ void Parser::verb(void){
 //  <past_tense> -> did <verb>
 // ************************************************************************
 void Parser::past_tense(void){
+	cout << "past_tense" << endl;
 	if (nextToken == did){
 		nextToken = lexer.lex();
 		verb();
@@ -125,6 +145,7 @@ void Parser::past_tense(void){
 //  <future_tense> -> will <verb>
 // ************************************************************************
 void Parser::future_tense(void){
+	cout << "future_tense" << endl;
 	if (nextToken == will){
 		nextToken = lexer.lex();
 		verb();
@@ -137,6 +158,7 @@ void Parser::future_tense(void){
 //  <subject> -> coffee | bed | ramen | pasta | cake | alarm | homework | program
 // ************************************************************************
 void Parser::subject(void){
+	cout << "subject" << endl;
 	if (nextToken == coffee || nextToken == bed || nextToken == ramen || nextToken == pasta || nextToken == cake || nextToken == alarm || nextToken == homework || nextToken == program)
 		nextToken = lexer.lex();
 	else
@@ -147,6 +169,7 @@ void Parser::subject(void){
 //  <object> -> negative | plus | minus | and | or | multiply | divided_by
 // ************************************************************************
 void Parser::object(void){
+	cout << "object" << endl;
 	if (nextToken == negative || nextToken == plus || nextToken == minus || nextToken == and || nextToken == or || nextToken == multiply || nextToken == divided_by)
 		nextToken = lexer.lex();
 	else
@@ -157,10 +180,9 @@ void Parser::object(void){
 // <numeric> -> 0...9, { 0...9 }
 // ************************************************************************
 void Parser::numeric(void){
-	if (nextToken == number){
-		while (nextToken != number){
-			nextToken = lexer.lex();
-		}
+	cout << "numeric" << endl;
+	if (nextToken == DIGIT){
+		nextToken = lexer.lex();
 	}
 	else
 		cout << "Error in number" << endl;
