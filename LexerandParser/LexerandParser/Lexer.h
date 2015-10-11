@@ -37,6 +37,17 @@
 #define program 27
 
 #define nouns 28
+#define the_end 29
+#define for_starters 30
+#define concluded 31
+
+#define negative 32
+#define plus 33
+#define minus 34
+#define and 35
+#define or 36
+#define multiply 37
+#define divided_by 38
 
 #define UNKNOWN 99
 
@@ -49,7 +60,7 @@ class Lexer
 	int nextChar;
 	int lexLen;
 	int token;
-	int nextToken:
+	int nextToken;
 	ifstream file;
 	map<string, int> specialWord;
 
