@@ -70,6 +70,17 @@ void Lexer::fillSpecialWords()
 	specialWord[string("alarm")] = 25;
 	specialWord[string("homework")] = 26;
 	specialWord[string("program")] = 27;
+	specialWord[string("the_end")] = 29;
+	specialWord[string("for_starters")] = 30;
+	specialWord[string("concluded")] = 31;
+
+	specialWord[string("negative")] = 32;
+	specialWord[string("plus")] = 33;
+	specialWord[string("minus")] = 34;
+	specialWord[string("and")] = 35;
+	specialWord[string("or")] = 36;
+	specialWord[string("multiply")] = 37;
+	specialWord[string("divided_by")] = 38;
 
 }
 
