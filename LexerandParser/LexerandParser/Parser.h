@@ -24,6 +24,9 @@ public:
 	void object(void);
 	void numeric(void);
 
+	bool isObject(int);
+	bool isSubject(int);
+
 };
 
 

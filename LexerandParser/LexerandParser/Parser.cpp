@@ -3,6 +3,7 @@
 // ***************************************************************
 // Main to test the parser
 // ***************************************************************
+
 int main(void) {
 	Parser parser; // create a parser object
 }
@@ -32,7 +33,7 @@ void Parser::essay(void){
 	cout << "essay" << endl;
 	do{
 		paragraph();
-	} while (nextToken != the_end);
+	} while (nextToken != EOF);
 }
 
 // ************************************************************************
@@ -40,14 +41,12 @@ void Parser::essay(void){
 // ************************************************************************
 void Parser::paragraph(void){
 	cout << "paragraph" << endl;
-	if (lexer.lex() == for_starters){
+	if (nextToken == for_starters){
 		do{
 			sentence();
 			comment();
-			nextToken = lexer.lex();
 		} while (nextToken != concluded);
 	}
-	nextToken = lexer.lex();
 }
 
 // ************************************************************************
@@ -56,6 +55,7 @@ void Parser::paragraph(void){
 
 void Parser::sentence(void){
 	cout << "sentence" << endl;
+
 	noun();
 	if (nextToken == did)
 		past_tense();
@@ -73,17 +73,17 @@ void Parser::sentence(void){
 			subject();
 		else
 			noun();
-	} while (lexer.lex != ".");
+	} while (nextToken != PERIOD);
 }
 
-bool isObject(int nextToken){
+bool Parser::isObject(int nextToken){
 	if (nextToken == have || nextToken == is || nextToken == add || nextToken == divide || nextToken == subtract || make || nextToken == bake || nextToken == print || nextToken == fly || nextToken == sleep || nextToken == snooze)
 		return true;
 	else
 		return false;
 }
 
-bool isSubject(int nextToken){
+bool Parser::isSubject(int nextToken){
 	if (nextToken == negative || nextToken == plus || nextToken == minus || nextToken == and || nextToken == or || nextToken == multiply || nextToken == divided_by)
 		return true;
 	else
@@ -97,10 +97,10 @@ bool isSubject(int nextToken){
 
 void Parser::comment(void){
 	cout << "comment" << endl;
-	if (lexer.lex == LEFTPAREN){
+	if (lexer.lex() == LEFTPAREN){
 		do{
 			nextToken = lexer.lex();
-		} while (lexer.lex != RIGHTPAREN);
+		} while (lexer.lex() != RIGHTPAREN);
 	}
 	nextToken = lexer.lex();
 }
@@ -110,11 +110,8 @@ void Parser::comment(void){
 // ************************************************************************
 void Parser::noun(void){
 	cout << "noun" << endl;
-	if (nextToken == nouns){
-		nextToken = lexer.lex();
-	}
-	else
-		cout << "Error reading noun" << endl;
+	//if nexttoken is noun else retun error
+	nextToken = lexer.lex();
 }
 
 // ************************************************************************

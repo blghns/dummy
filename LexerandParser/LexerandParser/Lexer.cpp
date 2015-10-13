@@ -1,5 +1,6 @@
 #include "Lexer.h"
 
+
 /*
 int main(void) 
 {
@@ -71,7 +72,7 @@ void Lexer::fillSpecialWords()
 	specialWord[string("homework")] = 26;
 	specialWord[string("program")] = 27;
 	specialWord[string("the_end")] = 29;
-	specialWord[string("for_starters")] = 30;
+	specialWord[string("For_starters")] = 30;
 	specialWord[string("concluded")] = 31;
 
 	specialWord[string("negative")] = 32;
@@ -88,6 +89,10 @@ int Lexer::lookup(char ch)
 {
 	switch (ch)
 	{
+		case '.':
+			addChar();
+			nextToken = PERIOD;
+			break;
 		case '(':
 			addChar();
 			nextToken = LEFTPAREN;
@@ -125,7 +130,9 @@ void Lexer::getChar()
 	{
 		nextChar = file.get();
 
-		if (isalpha(nextChar))
+		if ('A' <= nextChar && 'Z' >= nextChar)
+			charClass = nouns;
+		else if (isalpha(nextChar))
 			charClass = LETTER;
 		else if (isdigit(nextChar))
 			charClass = DIGIT;
@@ -153,6 +160,8 @@ int Lexer::lex()
 
 	switch (charClass)
 	{
+		case nouns:
+		case PERIOD:
 		case LETTER:
 			addChar();
 			getChar();
@@ -175,7 +184,13 @@ int Lexer::lex()
 			nextToken = DIGIT;
 			break;
 
+		// Single characters
 		case UNKNOWN:
+			lookup(nextChar);
+			getChar();
+			break;
+		
+		case EOF:
 			nextToken = EOF;
 			lexeme[0] = 'E';
 			lexeme[1] = 'O';

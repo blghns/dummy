@@ -49,6 +49,8 @@
 #define multiply 37
 #define divided_by 38
 
+#define PERIOD 39
+
 #define UNKNOWN 99
 
 using namespace std;
@@ -56,8 +58,8 @@ using namespace std;
 class Lexer
 {
 	int charClass;
-	int lexeme[100];
-	int nextChar;
+	char lexeme[100];
+	char nextChar;
 	int lexLen;
 	int token;
 	int nextToken;
