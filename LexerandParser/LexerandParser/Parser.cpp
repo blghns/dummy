@@ -15,8 +15,8 @@ Parser::Parser(void)
 {
 	if (lexer.openFile()) {
 		lexer.getChar();
-		nextToken = lexer.lex();
-		cout << "First token is: " << nextToken << "\n";
+		//nextToken = lexer.lex();
+		//out << "First token is: " << nextToken << "\n";
 		essay();
 	}
 }
@@ -32,8 +32,9 @@ Parser::~Parser(void)
 void Parser::essay(void){
 	cout << "essay" << endl;
 	do{
+		nextToken = lexer.lex();
 		paragraph();
-	} while (nextToken != EOF);
+	} while (nextToken != the_end);
 }
 
 // ************************************************************************
@@ -46,7 +47,11 @@ void Parser::paragraph(void){
 			sentence();
 			comment();
 		} while (nextToken != concluded);
+		nextToken = lexer.lex(); //eat the dot
+		//nextToken = lexer.lex(); //get the next token
 	}
+	else
+		cout << "error in paragraph" << endl;
 }
 
 // ************************************************************************
@@ -55,7 +60,7 @@ void Parser::paragraph(void){
 
 void Parser::sentence(void){
 	cout << "sentence" << endl;
-
+	nextToken = lexer.lex();
 	noun();
 	if (nextToken == did)
 		past_tense();
@@ -65,7 +70,7 @@ void Parser::sentence(void){
 		verb();
 	if (nextToken == DIGIT)
 		numeric();
-	do{
+	while (nextToken != PERIOD){
 		nextToken = lexer.lex();
 		if (isObject(nextToken))
 			object();
@@ -73,7 +78,7 @@ void Parser::sentence(void){
 			subject();
 		else
 			noun();
-	} while (nextToken != PERIOD);
+	}
 }
 
 bool Parser::isObject(int nextToken){
@@ -93,7 +98,7 @@ bool Parser::isSubject(int nextToken){
 // ************************************************************************
 //  <comment> -> “(“ {a...z | 0...9} “)”
 // ************************************************************************
-// basically skips whatever is in the parenthesis.
+// basically anything in the parenthesis.
 
 void Parser::comment(void){
 	cout << "comment" << endl;
@@ -119,7 +124,7 @@ void Parser::noun(void){
 // ************************************************************************
 void Parser::verb(void){
 	cout << "verb" << endl;
-	if (nextToken == have || nextToken == is || nextToken == add || nextToken == divide || nextToken == subtract || make || nextToken == bake || nextToken == print || nextToken == fly || nextToken == sleep || nextToken == snooze)
+	if (nextToken == have || nextToken == is || nextToken == add || nextToken == divide || nextToken == subtract || nextToken == make || nextToken == bake || nextToken == print || nextToken == fly || nextToken == sleep || nextToken == snooze)
 		nextToken = lexer.lex();
 	else
 		cout << "Error reading verb" << endl;
