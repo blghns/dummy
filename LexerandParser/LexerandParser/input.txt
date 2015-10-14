@@ -1,1 +1,4 @@
-For_starters Bill have 45. (assign Bill noun the numeric value 45) concluded. For_starters Bil did make ramen. concluded. For_starters Jay will make 10 coffees. (assigns 10 coffees to the subject Jay. syntactically correct with our grammar rules) concluded. For_starters Bethy did sleep today concluded. the_end.
+For_starters Bill have 45. (assign Bill noun the numeric value 45) concluded.
+For_starters Bil did make ramen. concluded.
+For_starters Jay will make 10 coffee. (assigns 10 coffees to the subject Jay, syntactically correct with our grammar rules) concluded.
+For_starters Bethy did sleep. concluded. the_end

@@ -15,8 +15,8 @@ Parser::Parser(void)
 {
 	if (lexer.openFile()) {
 		lexer.getChar();
-		//nextToken = lexer.lex();
-		//out << "First token is: " << nextToken << "\n";
+		nextToken = lexer.lex();
+		cout << "First token is: " << nextToken << "\n";
 		essay();
 	}
 }
@@ -32,8 +32,8 @@ Parser::~Parser(void)
 void Parser::essay(void){
 	cout << "essay" << endl;
 	do{
-		nextToken = lexer.lex();
 		paragraph();
+		nextToken = lexer.lex();
 	} while (nextToken != the_end);
 }
 
@@ -71,7 +71,6 @@ void Parser::sentence(void){
 	if (nextToken == DIGIT)
 		numeric();
 	while (nextToken != PERIOD){
-		nextToken = lexer.lex();
 		if (isObject(nextToken))
 			object();
 		else if (isSubject(nextToken))
@@ -81,14 +80,14 @@ void Parser::sentence(void){
 	}
 }
 
-bool Parser::isObject(int nextToken){
-	if (nextToken == have || nextToken == is || nextToken == add || nextToken == divide || nextToken == subtract || make || nextToken == bake || nextToken == print || nextToken == fly || nextToken == sleep || nextToken == snooze)
+bool Parser::isSubject(int nextToken){
+	if (nextToken == coffee || nextToken == bed || nextToken == ramen || nextToken == pasta || nextToken == cake || nextToken == alarm || nextToken == homework || nextToken == program)
 		return true;
 	else
 		return false;
 }
 
-bool Parser::isSubject(int nextToken){
+bool Parser::isObject(int nextToken){
 	if (nextToken == negative || nextToken == plus || nextToken == minus || nextToken == and || nextToken == or || nextToken == multiply || nextToken == divided_by)
 		return true;
 	else
@@ -102,12 +101,14 @@ bool Parser::isSubject(int nextToken){
 
 void Parser::comment(void){
 	cout << "comment" << endl;
-	if (lexer.lex() == LEFTPAREN){
+	nextToken = lexer.lex();
+	if (nextToken == LEFTPAREN){
 		do{
 			nextToken = lexer.lex();
-		} while (lexer.lex() != RIGHTPAREN);
+		} while (nextToken!= RIGHTPAREN);
+		nextToken = lexer.lex();
 	}
-	nextToken = lexer.lex();
+	
 }
 
 // ************************************************************************
