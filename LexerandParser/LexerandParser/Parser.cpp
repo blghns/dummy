@@ -43,6 +43,7 @@ void Parser::essay(void){
 void Parser::paragraph(void){
 	cout << "paragraph" << endl;
 	if (nextToken == for_starters){
+		nextToken = lexer.lex();
 		do{
 			sentence();
 			comment();
@@ -60,7 +61,6 @@ void Parser::paragraph(void){
 
 void Parser::sentence(void){
 	cout << "sentence" << endl;
-	nextToken = lexer.lex();
 	noun();
 	if (nextToken == did)
 		past_tense();
