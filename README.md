@@ -1,3 +1,4 @@
+![Phonics](phonics_lang.PNG)
 # Phonics Language Lexer and Parser for Programming Languages class
 
 **Domain: Simplified English Language**
