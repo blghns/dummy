@@ -22,4 +22,8 @@ for functions, use different paragraphs. Example
 For_starters My_noun have 10. (nouns must start with a capital letter) concluded.
 For_starters Bill have 10 My_noun. (bill is 100) concluded.
 
+# EBNF
+
+![EBNF](ebnf.PNG)
+![EBNF2](ebnf2.PNG)
 
